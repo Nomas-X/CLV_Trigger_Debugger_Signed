@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  release:
+    types: released
+
+permissions:
+  contents: write
+
+jobs:
+  release-addon:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Set VERSION env
+          run: echo VERSION=${GITHUB_REF#refs/tags/${{ env.VERSION }}} >> $GITHUB_ENV
+        - name: Checkout the source code
+          uses: actions/checkout@v2
+        - name: Setup HEMTT
+          uses: arma-actions/hemtt@v1
+        - name: Run HEMTT build
+          run: hemtt release --no-archive
+        - name: Move release to releases folder
+          run:
+            version="${{ github.event.release.tag_name }}"
+            mv .hemttout/release "@CLV_Trigger_Debugger_Signed-${{ env.VERSION }}"
+        - name: Zip release
+          run: zip -r "@CLV_Trigger_Debugger_Signed-${{ env.VERSION }}.zip" ./@CLV_Trigger_Debugger_Signed-${{ env.VERSION }}
+        - name: Update Release with Files
+          uses: softprops/action-gh-release@v1
+          with:
+            files: ./@CLV_Trigger_Debugger_Signed-${{ env.VERSION }}.zip
+            draft: true
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        - name: Update to Steam Workshop (stable)
+        - uses: m00nl1ght-dev/steam-workshop-deploy@v1
+          with:
+            username: ${{ secrets.STEAM_USERNAME }}          
+            configVdf: ${{ secrets.STEAM_CONFIG_VDF }}
+            path: build
+            appId: 1234560
+            publishedFileId: 3324043515
