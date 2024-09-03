@@ -35,7 +35,8 @@ jobs:
         - name: Update to Steam Workshop (stable)
           uses: m00nl1ght-dev/steam-workshop-deploy@v1
           with:
-            username: ${{ secrets.STEAM_USERNAME }}          
+            username: ${{ secrets.STEAM_USERNAME }}
+            password: ${{ secrets.STEAM_PASSWORD }}
             configVdf: ${{ secrets.STEAM_CONFIG_VDF }}
             path: build
             appId: 1234560
