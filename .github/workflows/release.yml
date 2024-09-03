@@ -33,7 +33,7 @@ jobs:
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         - name: Update to Steam Workshop (stable)
-        - uses: m00nl1ght-dev/steam-workshop-deploy@v1
+          uses: m00nl1ght-dev/steam-workshop-deploy@v1
           with:
             username: ${{ secrets.STEAM_USERNAME }}          
             configVdf: ${{ secrets.STEAM_CONFIG_VDF }}

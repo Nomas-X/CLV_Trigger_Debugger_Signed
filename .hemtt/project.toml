@@ -28,7 +28,7 @@ exclude = [
 ]
 
 [version]
-path = "addons/MusicModPBO/script_version.hpp" # Default
+path = "addons/clv_trigger_debugger/script_version.hpp" # Default
 # major = 0 # Overrides path when set
 # minor = 1
 # patch = 1
